@@ -10,7 +10,7 @@ const Home: NextPage = () => {
         <meta name="description" content="Reimaginação do Projeto Boladão utilizando create T3 app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar/>
+      <Navbar title="Início"/>
       <main className="container flex flex-1 flex-col items-center justify-center p-4 mx-auto">
         <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold">
           Projeto Boladão T3 App

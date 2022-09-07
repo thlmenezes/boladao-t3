@@ -2,7 +2,11 @@ import { signIn, signOut } from "next-auth/react"
 import { trpc } from "../utils/trpc";
 import Link from 'next/link'
 
-export function Navbar(){
+interface NavbarProps {
+  title?: string;
+}
+
+export function Navbar({ title }: NavbarProps){
   const session = trpc.auth.getSession.useQuery();
   const user = session.data?.user;
 
@@ -51,6 +55,12 @@ export function Navbar(){
           </ul>
         </div>
       </div>
+      {
+        title && 
+        <div className="navbar-center">
+          <a className="normal-case font-bold text-xl">{title}</a>
+        </div>
+      }
       <div className="navbar-end">
         <div className="space-x-5 mr-5 invisible md:visible">
           <Link href="/">

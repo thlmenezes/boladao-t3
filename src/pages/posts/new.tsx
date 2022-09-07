@@ -26,7 +26,7 @@ const Posts: NextPage = () => {
         <meta name="description" content="Criar nova publicação" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar />
+      <Navbar title="Novo Post"/>
       <main className="container flex flex-col items-center justify-center min-h-screen p-4 mx-auto">
         {!data ?
           <h1>Deslogado</h1> :
