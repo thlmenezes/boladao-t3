@@ -2,8 +2,8 @@ import type { NextPage } from "next";
 import { trpc } from "../../utils/trpc";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { transformDocument } from "@prisma/client/runtime";
 import { useState } from "react";
+import { Navbar } from "../../components/navbar";
 
 const Posts: NextPage = () => {
   const { data } = useSession();
@@ -26,20 +26,8 @@ const Posts: NextPage = () => {
         <meta name="description" content="Criar nova publicação" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <Navbar />
       <main className="container flex flex-col items-center justify-center min-h-screen p-4 mx-auto">
-      <nav className="container flex justify-center space-x-5">
-          <a
-            className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
-            href={"/"}
-          >
-            HOME
-          </a>
-          <a className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
-            href={"/posts"}
-          >
-            Posts
-          </a>
-        </nav>
         {!data ?
           <h1>Deslogado</h1> :
           <>
