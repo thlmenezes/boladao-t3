@@ -14,6 +14,12 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container flex flex-col items-center justify-center min-h-screen p-4 mx-auto">
+        <a
+          className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
+          href={"/api/auth/signin"}
+        >
+          Login
+        </a>
         <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
           Create <span className="text-purple-300">T3</span> App
         </h1>
