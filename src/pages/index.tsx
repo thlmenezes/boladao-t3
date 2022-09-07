@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { trpc } from "../utils/trpc";
-import { signOut } from "next-auth/react"
+import { signIn, signOut } from "next-auth/react"
 
 const Home: NextPage = () => {
   const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
@@ -15,12 +15,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container flex flex-col items-center justify-center min-h-screen p-4 mx-auto">
-        <a
-          className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
-          href={"/api/auth/signin"}
-        >
-          Login
-        </a>
+        <button onClick={() => signIn("twitch")}>Login</button>
         <button onClick={() => signOut()}>Log out</button>
         <p>{posts.data ? JSON.stringify(posts.data) : "Lista de Posts Vazia"}</p>
         <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
