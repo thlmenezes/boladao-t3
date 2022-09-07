@@ -15,8 +15,6 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container flex flex-col items-center justify-center min-h-screen p-4 mx-auto">
-        <button onClick={() => signIn("twitch")}>Login</button>
-        <button onClick={() => signOut()}>Log out</button>
         <nav className="container flex justify-center space-x-5">
           <a
             className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
@@ -35,7 +33,26 @@ const Home: NextPage = () => {
           >
             Novo Post
           </a>
+          <button onClick={() => signIn("twitch")}>Login</button>
+          <button onClick={() => signOut()}>Log out</button>
         </nav>
+        <div className="flex items-center justify-center w-full pt-6 text-2xl text-blue-500">
+          {
+            session.data && 
+          <>
+            <picture className="flex flex-col items-center justify-center">
+              <img
+                className="rounded-full"
+                src={session.data.user?.image ?? ''}
+                alt={`Foto de Perfil do usuário ${session.data.user?.name}`}
+                width={50}
+                height={50}
+                />
+              <figcaption>{session.data.user?.name}</figcaption>
+            </picture>
+          </>
+          }
+        </div>
         <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
           Create <span className="text-purple-300">T3</span> App
         </h1>
@@ -71,12 +88,6 @@ const Home: NextPage = () => {
             description="Build data-driven JavaScript & TypeScript apps in less time"
             documentation="https://www.prisma.io/docs/"
           />
-        </div>
-        <div className="flex items-center justify-center w-full pt-6 text-2xl text-blue-500">
-          {session.data ? <>
-          <p>{session.data.user?.name}</p>
-          <img src={session.data.user?.image ?? ''} alt={`Foto de Perfil do usuário ${session.data.user?.name}`}/>
-          </> : <p>Loading..</p>}
         </div>
       </main>
     </>
