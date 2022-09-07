@@ -17,7 +17,25 @@ const Home: NextPage = () => {
       <main className="container flex flex-col items-center justify-center min-h-screen p-4 mx-auto">
         <button onClick={() => signIn("twitch")}>Login</button>
         <button onClick={() => signOut()}>Log out</button>
-        <p>{posts.data ? JSON.stringify(posts.data) : "Lista de Posts Vazia"}</p>
+        <nav className="container flex justify-center space-x-5">
+          <a
+            className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
+            href={"/"}
+          >
+            HOME
+          </a>
+          <a
+            className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
+            href={"/posts"}
+          >
+            Posts
+          </a>
+          <a className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
+            href={"/posts/new"}
+          >
+            Novo Post
+          </a>
+        </nav>
         <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
           Create <span className="text-purple-300">T3</span> App
         </h1>

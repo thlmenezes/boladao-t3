@@ -26,6 +26,19 @@ const Posts: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container flex flex-col items-center justify-center min-h-screen p-4 mx-auto">
+        <nav className="container flex justify-center space-x-5">
+          <a
+            className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
+            href={"/"}
+          >
+            HOME
+          </a>
+          <a className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
+            href={"/posts/new"}
+          >
+            Novo Post
+          </a>
+        </nav>
         {!data ?
           <h1>Deslogado</h1>
           : <>
