@@ -6,7 +6,7 @@ import { signOut } from "next-auth/react"
 const Home: NextPage = () => {
   const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
   const session = trpc.auth.getSession.useQuery();
-
+  const posts = trpc.post.getAllPosts.useQuery();
   return (
     <>
       <Head>
@@ -22,6 +22,7 @@ const Home: NextPage = () => {
           Login
         </a>
         <button onClick={() => signOut()}>Log out</button>
+        <p>{posts.data ? JSON.stringify(posts.data) : "Lista de Posts Vazia"}</p>
         <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold text-gray-700">
           Create <span className="text-purple-300">T3</span> App
         </h1>
