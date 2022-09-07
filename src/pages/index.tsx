@@ -4,6 +4,7 @@ import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
   const hello = trpc.example.hello.useQuery({ text: "from tRPC" });
+  const session = trpc.auth.getSession.useQuery();
 
   return (
     <>
@@ -50,7 +51,10 @@ const Home: NextPage = () => {
           />
         </div>
         <div className="flex items-center justify-center w-full pt-6 text-2xl text-blue-500">
-          {hello.data ? <p>{hello.data.greeting}</p> : <p>Loading..</p>}
+          {session.data ? <>
+          <p>{session.data.user?.name}</p>
+          <img src={session.data.user?.image ?? ''} alt={`Foto de Perfil do usuário ${session.data.user?.name}`}/>
+          </> : <p>Loading..</p>}
         </div>
       </main>
     </>
