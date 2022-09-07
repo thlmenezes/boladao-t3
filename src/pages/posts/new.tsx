@@ -20,18 +20,17 @@ const Posts: NextPage = () => {
     return <p className="bg-green-600">{feedback}</p>
   }
 
-  return <>
+  return <div className="flex flex-col min-h-screen">
       <Head>
         <title>Criar Post</title>
         <meta name="description" content="Criar nova publicação" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar title="Novo Post"/>
-      <main className="container flex flex-col items-center justify-center min-h-screen p-4 mx-auto">
+      <main className="container flex flex-1 flex-col items-center justify-center p-4 mx-auto">
         {!data ?
           <h1>Deslogado</h1> :
           <>
-          <h1>Criar Novo</h1>
           <form onSubmit={(e) => {
             e.preventDefault()
             createPost({ description })
@@ -42,7 +41,7 @@ const Posts: NextPage = () => {
           {formatFeedback(feedback)}
           </>}
       </main>
-  </>
+  </div>
 }
 
 export default Posts;

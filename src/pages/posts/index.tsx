@@ -19,25 +19,24 @@ const Posts: NextPage = () => {
       return <p key={post.id}>{post.description}</p>
     })
   }
-  return <>
+  return <div className="flex flex-col min-h-screen">
       <Head>
         <title>Posts</title>
         <meta name="description" content="Lista de Publicações" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar title="Posts"/>
-      <main className="container flex flex-col items-center justify-center min-h-screen p-4 mx-auto">
+      <main className="container flex flex-1 flex-col items-center justify-center p-4 mx-auto">
         {!data ?
           <h1>Deslogado</h1>
           : <>
-            <h1>Posts</h1>
             {
               formatPostsData(postsData.data)
             }
           </>
         }
       </main>
-  </>
+  </div>
 }
 
 export default Posts;
