@@ -10,7 +10,10 @@ const Posts: NextPage = () => {
   const [description, setDescription] = useState('');
   const [feedback, setFeedback] = useState('')
   const { mutate: createPost } = trpc.post.createPost.useMutation({
-    onSuccess: (post) => setFeedback(`post ${post.id} criado`),
+    onSuccess: (post) => {
+      setFeedback(`post ${post.id} criado`)
+      setDescription('')
+    },
     onError: (error) => setFeedback(`ERRO: ${error.message}`)
   });
 
@@ -33,10 +36,20 @@ const Posts: NextPage = () => {
           <>
           <form onSubmit={(e) => {
             e.preventDefault()
-            createPost({ description })
+            if(description.trim().length > 0){
+              createPost({ description })
+            }
           }}>
-            <textarea name="description" value={description} onChange={({target}) => setDescription(target.value)}/>
-            <input type="submit"/>
+            <textarea
+              placeholder="Digite algo..."
+              className="textarea textarea-bordered bg-neutral text-neutral-content w-full rounded px-2 py-1 text-center text-lg"
+              name="description"
+              onChange={({target}) => setDescription(target.value)}
+              rows={20}
+              cols={50}
+              value={description}
+            />
+            <input disabled={description.trim().length === 0} className="btn btn-primary" type="submit"/>
           </form>
           {formatFeedback(feedback)}
           </>}
