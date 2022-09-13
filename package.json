@@ -10,6 +10,7 @@
     "start": "next start"
   },
   "engines": {
+    "npm": "8.1.0",
     "node": "16.13.0"
   },
   "dependencies": {
