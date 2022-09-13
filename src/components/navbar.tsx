@@ -34,7 +34,7 @@ export function Navbar({ title }: NavbarProps){
   return (
     <nav className="navbar bg-base-100">
       <div className="navbar-start">
-        <div className="dropdown md:hidden">
+        <div className="dropdown tablet:hidden">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /></svg>
           </label>
@@ -63,7 +63,7 @@ export function Navbar({ title }: NavbarProps){
         </div>
       }
       <div className="navbar-end">
-        <div className="space-x-5 mr-5 invisible md:visible">
+        <div className="space-x-5 mr-5 invisible tablet:visible">
           <Link href="/">
             <button className="btn btn-ghost">Início</button>
           </Link>
