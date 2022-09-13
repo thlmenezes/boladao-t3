@@ -17,6 +17,7 @@
     "@trpc/next": "10.0.0-proxy-alpha.70",
     "@trpc/react": "10.0.0-proxy-alpha.70",
     "@trpc/server": "10.0.0-proxy-alpha.70",
+    "clsx": "^1.2.1",
     "daisyui": "^2.25.0",
     "next": "12.2.5",
     "next-auth": "^4.10.2",
