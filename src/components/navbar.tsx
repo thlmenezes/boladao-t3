@@ -1,6 +1,7 @@
 import { signIn, signOut } from "next-auth/react"
 import { trpc } from "../utils/trpc";
 import Link from 'next/link'
+import clsx from "clsx";
 
 interface NavbarProps {
   title?: string;
@@ -17,7 +18,7 @@ export function Navbar({ title }: NavbarProps){
   }
 
   function userAvatar(){
-    if(!user) return <p>Avatar</p>
+    if(!user) return <span className="text-xl">AA</span>
 
     return <picture>
       <img
@@ -79,8 +80,15 @@ export function Navbar({ title }: NavbarProps){
           }
         </div>
         <div className="dropdown dropdown-end">
-        <div className="tooltip tooltip-left" data-tip={user?.name ?? ""}>
-          <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+        <div className="tooltip tooltip-left" data-tip={user?.name ?? "Faça Login"}>
+          <label
+            tabIndex={0}
+            className={
+              clsx("btn btn-ghost btn-circle avatar", {
+                placeholder: !user
+              })
+            }
+          >
             <div className="w-10">
               {userAvatar()}
             </div>
