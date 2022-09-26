@@ -1,8 +1,8 @@
 import type { NextPage } from "next";
-import { trpc } from "../../utils/trpc";
+import { trpc } from "@root/utils/trpc";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { Navbar } from "../../components/navbar";
+import { Navbar } from "@root/components/navbar";
 
 const Posts: NextPage = () => {
   const postsData = trpc.post.getAllPosts.useQuery();

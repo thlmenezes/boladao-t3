@@ -1,9 +1,9 @@
 import type { NextPage } from "next";
-import { trpc } from "../../utils/trpc";
+import { trpc } from "@root/utils/trpc";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import { Navbar } from "../../components/navbar";
+import { Navbar } from "@root/components/navbar";
 
 const Message = ({ variant, children }: { variant: 'success' | 'error', children: React.ReactNode }) => {
   /*!

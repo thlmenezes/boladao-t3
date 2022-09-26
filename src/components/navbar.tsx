@@ -1,5 +1,5 @@
 import { signIn, signOut } from "next-auth/react"
-import { trpc } from "../utils/trpc";
+import { trpc } from "@root/utils/trpc";
 import Link from 'next/link'
 import clsx from "clsx";
 

@@ -1,4 +1,4 @@
-import { t, authedProcedure } from "../trpc";
+import { t, authedProcedure } from "@root/server/trpc/trpc";
 import { z } from "zod";
 
 export const postRouter = t.router({
