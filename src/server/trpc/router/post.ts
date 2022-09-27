@@ -4,7 +4,11 @@ import { authedProcedure, t } from '@root/server/trpc/trpc';
 
 export const postRouter = t.router({
   getAllPosts: authedProcedure.query(({ ctx }) => {
-    return ctx.prisma.post.findMany();
+    return ctx.prisma.post.findMany({
+      include: {
+        user: true,
+      },
+    });
   }),
   createPost: authedProcedure
     .input(z.object({ description: z.string() }))

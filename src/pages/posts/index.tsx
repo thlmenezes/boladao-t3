@@ -146,6 +146,18 @@ const Posts: NextPage = () => {
           className="card card-bordered w-96 bg-neutral text-neutral-content shadow-xl"
         >
           <div className="card-body">
+            <div className="card-title">
+              <picture>
+                <img
+                  className="rounded-full"
+                  src={post.user.image ?? ''}
+                  alt={`Foto de Perfil do usuário ${post.user.name}`}
+                  width={25}
+                  height={25}
+                />
+              </picture>
+              <p>{post.user.name}</p>
+            </div>
             <p>{post.description}</p>
             <div className="card-actions justify-end">
               <button
