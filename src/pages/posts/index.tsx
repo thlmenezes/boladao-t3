@@ -149,7 +149,9 @@ const Posts: NextPage = () => {
             <p>{post.description}</p>
             <div className="card-actions justify-end">
               <button
-                onClick={copyTextToClipboard(post.description)}
+                onClick={copyTextToClipboard(
+                  post.description + '\nCopiado de projeto boladão <3'
+                )}
                 className="btn btn-primary"
               >
                 Copiar
