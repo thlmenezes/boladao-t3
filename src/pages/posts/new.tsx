@@ -1,11 +1,18 @@
-import type { NextPage } from "next";
-import { trpc } from "@root/utils/trpc";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useEffect, useState } from "react";
-import { Navbar } from "@root/components/navbar";
+import { useEffect, useState } from 'react';
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import { useSession } from 'next-auth/react';
 
-const Message = ({ variant, children }: { variant: 'success' | 'error', children: React.ReactNode }) => {
+import { Navbar } from '@root/components/navbar';
+import { trpc } from '@root/utils/trpc';
+
+const Message = ({
+  variant,
+  children,
+}: {
+  variant: 'success' | 'error';
+  children: React.ReactNode;
+}) => {
   /*!
    * Original code by Rotimi Best from StackOverflow
    *
@@ -21,12 +28,14 @@ const Message = ({ variant, children }: { variant: 'success' | 'error', children
     const timer = setTimeout(() => {
       setAlert(false);
     }, 3000);
-    
+
     return () => clearTimeout(timer);
   }, []);
-    
-  return (<>{alert && <div className={`alert alert-${variant}`}>{children}</div>}</>)
-}
+
+  return (
+    <>{alert && <div className={`alert alert-${variant}`}>{children}</div>}</>
+  );
+};
 
 const Posts: NextPage = () => {
   const { data } = useSession();
@@ -35,54 +44,73 @@ const Posts: NextPage = () => {
   const { mutate: createPost } = trpc.post.createPost.useMutation({
     onSuccess: (post) => {
       setFeedbacks((old) => [...old, `post ${post.id} criado`]);
-      setDescription('')
+      setDescription('');
     },
-    onError: (error) => setFeedbacks((old) => [...old, `ERRO: ${error.message}`])
+    onError: (error) =>
+      setFeedbacks((old) => [...old, `ERRO: ${error.message}`]),
   });
 
   function formatFeedback(feedback: string) {
-    if(!feedback) return <></>
-    if(feedback.startsWith('ERRO')) return <Message variant="error"><span>{feedback}</span></Message>
-    return <Message variant="success"><span>{feedback}</span></Message>
+    if (!feedback) return <></>;
+    if (feedback.startsWith('ERRO'))
+      return (
+        <Message variant="error">
+          <span>{feedback}</span>
+        </Message>
+      );
+    return (
+      <Message variant="success">
+        <span>{feedback}</span>
+      </Message>
+    );
   }
 
-  return <div className="flex flex-col min-h-screen">
+  return (
+    <div className="flex flex-col min-h-screen">
       <Head>
         <title>Criar Post</title>
         <meta name="description" content="Criar nova publicação" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar title="Novo Post"/>
+      <Navbar title="Novo Post" />
       <main className="container flex flex-1 flex-col items-center justify-center p-4 mx-auto">
-        {!data ?
-          <h1>Deslogado</h1> :
+        {!data ? (
+          <h1>Deslogado</h1>
+        ) : (
           <>
-            <form onSubmit={(e) => {
-              e.preventDefault()
-              if(description.trim().length > 0){
-                createPost({ description })
-              }
-            }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (description.trim().length > 0) {
+                  createPost({ description });
+                }
+              }}
+            >
               <textarea
                 placeholder="Digite algo..."
                 className="textarea textarea-bordered bg-neutral text-neutral-content w-full rounded px-2 py-1 text-center text-lg"
                 name="description"
-                onChange={({target}) => setDescription(target.value)}
+                onChange={({ target }) => setDescription(target.value)}
                 rows={20}
                 cols={50}
                 value={description}
               />
-              <input disabled={description.trim().length === 0} className="btn btn-primary" type="submit"/>
+              <input
+                disabled={description.trim().length === 0}
+                className="btn btn-primary"
+                type="submit"
+              />
             </form>
             {
               <div className="toast">
-                {feedbacks.map(feedback => formatFeedback(feedback))}
+                {feedbacks.map((feedback) => formatFeedback(feedback))}
               </div>
             }
           </>
-        }
+        )}
       </main>
-  </div>
-}
+    </div>
+  );
+};
 
 export default Posts;

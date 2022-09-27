@@ -1,17 +1,18 @@
 // src/server/router/context.ts
-import * as trpc from "@trpc/server";
-import * as trpcNext from "@trpc/server/adapters/next";
-import { Session } from "next-auth";
-import { getServerAuthSession } from "@root/server/common/get-server-auth-session";
-import { prisma } from "@root/server/db/client";
+import * as trpc from '@trpc/server';
+import * as trpcNext from '@trpc/server/adapters/next';
+import { Session } from 'next-auth';
+
+import { getServerAuthSession } from '@root/server/common/get-server-auth-session';
+import { prisma } from '@root/server/db/client';
 
 type CreateContextOptions = {
   session: Session | null;
 };
 
 /** Use this helper for:
- * - testing, so we dont have to mock Next.js' req/res
- * - trpc's `createSSGHelpers` where we don't have req/res
+ * - testing, so we don't have to mock Next.js' req/res
+ * - trpc' `createSSGHelpers` where we don't have req/res
  **/
 export const createContextInner = async (opts: CreateContextOptions) => {
   return {
@@ -25,7 +26,7 @@ export const createContextInner = async (opts: CreateContextOptions) => {
  * @link https://trpc.io/docs/context
  **/
 export const createContext = async (
-  opts: trpcNext.CreateNextContextOptions,
+  opts: trpcNext.CreateNextContextOptions
 ) => {
   const { req, res } = opts;
 
