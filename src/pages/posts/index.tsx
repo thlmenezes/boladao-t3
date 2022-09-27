@@ -57,7 +57,7 @@ const Posts: NextPage = () => {
         {!data ? (
           <h1>Deslogado</h1>
         ) : (
-          <div className="grid gap-5 md:grid-cols-2 2xl:grid-cols-3">
+          <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
             {formatPostsData(postsData.data)}
           </div>
         )}
