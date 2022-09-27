@@ -10,6 +10,13 @@ export const postRouter = t.router({
       },
     });
   }),
+  getMyPosts: authedProcedure.query(({ ctx }) => {
+    return ctx.prisma.post.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+    });
+  }),
   createPost: authedProcedure
     .input(z.object({ description: z.string() }))
     .mutation(({ ctx, input }) => {

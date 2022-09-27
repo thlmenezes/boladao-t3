@@ -63,11 +63,18 @@ export function Navbar({ title }: NavbarProps) {
               </li>
             </Link>
             {user && (
-              <Link href="/posts">
-                <li>
-                  <button>Posts</button>
-                </li>
-              </Link>
+              <>
+                <Link href="/posts">
+                  <li>
+                    <button>Posts</button>
+                  </li>
+                </Link>
+                <Link href="/posts/mine">
+                  <li>
+                    <button>Meus Posts</button>
+                  </li>
+                </Link>
+              </>
             )}
           </ul>
         </div>
@@ -86,6 +93,9 @@ export function Navbar({ title }: NavbarProps) {
             <>
               <Link href="/posts">
                 <button className="btn btn-ghost">Posts</button>
+              </Link>
+              <Link href="/posts/mine">
+                <button className="btn btn-ghost">Meus Posts</button>
               </Link>
             </>
           )}
