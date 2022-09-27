@@ -1,0 +1,12 @@
+{
+  "dictionaries": [
+    "novo-vocabulário"
+  ],
+  "dictionaryDefinitions": [
+    {
+      "name": "novo-vocabulário",
+      "path": "./.cspell/novo-vocabulário.txt",
+      "addWords": true
+    }
+  ]
+}
