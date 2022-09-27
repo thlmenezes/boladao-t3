@@ -28,9 +28,19 @@ Ter instalado, pelo menos nas versões abaixo, as ferramentas `npm` e `node`
 
 Utilizar [Vercel](https://vercel.com/), quando possível, por suas integrações com a plataforma NextJS
 
-## License
+## Licença
 
 Esse projeto foi licenciado pela MIT License - ver [LICENSE.md](LICENSE.md) para mais detalhes
+
+## Contribuindo
+
+Favor seguir as regras do ESLint, Prettier e Commitlint
+
+### Problemas Comuns
+
+- Caso os commit hooks não rodem, tente usar `scripts/husky-chmod`: comando de uma linha que modifica os arquivos dentro da pasta `.husky`, permitindo que sejam executados como scripts.
+
+- Caso a lista de gitmojis esteja desatualizada, tente usar `scripts/fetch-gitmojis`: script node para buscar a lista de gitmojis de gitmoji.dev no github.
 
 ## Agradecimentos
 
