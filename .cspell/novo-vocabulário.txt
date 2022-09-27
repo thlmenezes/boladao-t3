@@ -7,3 +7,5 @@ gitmoji
 gitmojis
 commitlint
 commitzen
+daisyui
+tailwindcss
