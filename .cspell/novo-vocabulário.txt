@@ -3,3 +3,7 @@ trpc
 superjson
 clsx
 Rotimi
+gitmoji
+gitmojis
+commitlint
+commitzen
