@@ -2,8 +2,17 @@
   "name": "boladao",
   "version": "0.1.0",
   "private": true,
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-git"
+    },
+    "commitizenEmoji": {
+      "symbol": true
+    }
+  },
   "scripts": {
     "build": "next build",
+    "commit": "cz",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
@@ -32,6 +41,8 @@
     "zod": "^3.18.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.1.2",
+    "@commitlint/config-conventional": "^17.1.0",
     "@cspell/eslint-plugin": "6.6.1",
     "@types/node": "18.0.0",
     "@types/react": "18.0.14",
@@ -39,6 +50,9 @@
     "@typescript-eslint/eslint-plugin": "^5.38.1",
     "@typescript-eslint/parser": "^5.33.0",
     "autoprefixer": "^10.4.7",
+    "commitizen": "^4.2.5",
+    "cz-git": "^1.3.11",
+    "cz-gitmoji": "^0.0.7",
     "eslint": "^8.24.0",
     "eslint-config-next": "12.2.5",
     "eslint-config-prettier": "8.3.0",
