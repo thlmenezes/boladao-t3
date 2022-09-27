@@ -3,20 +3,14 @@ import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 
 import { Navbar } from '@root/components/navbar';
+import { PostCard } from '@root/components/postCard';
 import { trpc } from '@root/utils/trpc';
-
-function copyTextToClipboard(text: string) {
-  return () => {
-    if (typeof window === 'undefined') return;
-    navigator.clipboard.writeText(text);
-  };
-}
 
 const Posts: NextPage = () => {
   const postsData = trpc.post.getMyPosts.useQuery();
   const { data } = useSession();
 
-  function formatPostsData(posts: typeof postsData.data) {
+  function PostList(posts: { id: string; description: string }[] | undefined) {
     if (!posts || posts.length === 0)
       return (
         <a
@@ -26,28 +20,7 @@ const Posts: NextPage = () => {
           Criar Novo Post
         </a>
       );
-    return posts.map((post) => {
-      return (
-        <div
-          key={post.id}
-          className="card card-bordered w-96 bg-neutral text-neutral-content shadow-xl"
-        >
-          <div className="card-body">
-            <p>{post.description}</p>
-            <div className="card-actions justify-end">
-              <button
-                onClick={copyTextToClipboard(
-                  post.description + '\nCopiado de projeto boladão <3'
-                )}
-                className="btn btn-primary"
-              >
-                Copiar
-              </button>
-            </div>
-          </div>
-        </div>
-      );
-    });
+    return posts.map((post) => <PostCard data={post} />);
   }
 
   return (
@@ -63,7 +36,7 @@ const Posts: NextPage = () => {
           <h1>Deslogado</h1>
         ) : (
           <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
-            {formatPostsData(postsData.data)}
+            {PostList(postsData.data)}
           </div>
         )}
       </main>
