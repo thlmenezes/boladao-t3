@@ -9,6 +9,11 @@ import { trpc } from '@root/utils/trpc';
 const Posts: NextPage = () => {
   const postsData = trpc.post.getMyPosts.useQuery();
   const { data } = useSession();
+  const { mutate: deletePost } = trpc.post.deletePost.useMutation({
+    onSuccess: () => {
+      postsData.refetch();
+    },
+  });
 
   function PostList(posts: { id: string; description: string }[] | undefined) {
     if (!posts || posts.length === 0)
@@ -20,7 +25,13 @@ const Posts: NextPage = () => {
           Criar Novo Post
         </a>
       );
-    return posts.map((post) => <PostCard data={post} />);
+    return posts.map((post) => (
+      <PostCard
+        data={post}
+        deleteCB={() => deletePost({ id: post.id })}
+        editCB={() => alert('oi')}
+      />
+    ));
   }
 
   return (

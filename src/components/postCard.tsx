@@ -7,12 +7,16 @@ function copyTextToClipboard(text: string) {
 
 export function PostCard({
   data,
+  editCB,
+  deleteCB,
 }: {
   data: {
     id: string;
     description: string;
     user?: { image: string; name: string };
   };
+  editCB: () => void;
+  deleteCB: () => void;
 }) {
   return (
     <div
@@ -36,7 +40,7 @@ export function PostCard({
         )}
         <p>{data.description}</p>
         <div className="card-actions justify-end">
-          <button className="btn btn-square">
+          <button onClick={editCB} className="btn btn-square">
             <picture>
               <img
                 width={25}
@@ -46,7 +50,10 @@ export function PostCard({
               />
             </picture>
           </button>
-          <button className="btn btn-square hover:bg-red-800">
+          <button
+            onClick={deleteCB}
+            className="btn btn-square hover:bg-red-800"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"

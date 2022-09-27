@@ -27,4 +27,23 @@ export const postRouter = t.router({
         },
       });
     }),
+  deletePost: authedProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.post.delete({
+        where: input,
+      });
+    }),
+  editPost: authedProcedure
+    .input(z.object({ id: z.string(), description: z.string() }))
+    .mutation(({ ctx, input }) => {
+      return ctx.prisma.post.update({
+        where: {
+          id: input.id,
+        },
+        data: {
+          description: input.description,
+        },
+      });
+    }),
 });

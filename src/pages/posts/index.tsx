@@ -93,6 +93,91 @@ function CreatePostModal({
   );
 }
 
+
+function CreatePostModal({
+  isOpen,
+  createCB,
+  closeCB,
+}: {
+  isOpen: boolean;
+  createCB: ({ description }: { description: string }) => void;
+  closeCB: () => void;
+}) {
+  const [description, setDescription] = useState('');
+
+  return (
+    <Transition appear show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-10" onClose={closeCB}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-25" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4 text-center">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <Dialog.Panel className="w-full max-w-md transform overflow-hidden p-6 text-left align-middle card card-bordered bg-neutral text-neutral-content shadow-xl transition-all">
+                <div className="card-body">
+                  <Dialog.Title as="h3" className="card-title">
+                    Criar Novo Post
+                  </Dialog.Title>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (description.trim().length > 0) {
+                        createCB({ description });
+                      }
+                    }}
+                  >
+                    <textarea
+                      placeholder="Digite algo..."
+                      className="textarea textarea-bordered bg-neutral text-neutral-content w-full rounded px-2 py-1 text-center text-lg"
+                      name="description"
+                      onChange={({ target }) => setDescription(target.value)}
+                      rows={5}
+                      cols={50}
+                      value={description}
+                    />
+                    <div className="mt-4 card-actions">
+                      <input
+                        disabled={description.trim().length === 0}
+                        className="btn btn-primary"
+                        type="submit"
+                      />
+                      <button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={closeCB}
+                      >
+                        Fechar
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition>
+  );
+}
+
 function formatFeedback(feedback: string) {
   if (!feedback) return <></>;
   if (feedback.startsWith('ERRO'))
@@ -122,6 +207,11 @@ const Posts: NextPage = () => {
     onError: (error) =>
       setFeedbacks((old) => [...old, `ERRO: ${error.message}`]),
   });
+  const { mutate: deletePost } = trpc.post.deletePost.useMutation({
+    onSuccess: () => {
+      postsData.refetch();
+    },
+  });
 
   function PostList(posts: { id: string; description: string }[] | undefined) {
     if (!posts || posts.length === 0)
@@ -133,7 +223,13 @@ const Posts: NextPage = () => {
           Criar Novo Post
         </a>
       );
-    return posts.map((post) => <PostCard data={post} />);
+    return posts.map((post) => (
+      <PostCard
+        data={post}
+        deleteCB={() => deletePost({ id: post.id })}
+        editCB={() => alert('oi')}
+      />
+    ));
   }
 
   const addSymbolSVG = (
