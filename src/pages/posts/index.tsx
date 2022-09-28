@@ -6,9 +6,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 
-import { Message } from '@root/components/message';
-import { Navbar } from '@root/components/navbar';
-import { PostCard } from '@root/components/postCard';
+import { Message, Navbar, PostCard } from '@root/components';
 import { trpc } from '@root/utils/trpc';
 
 function CreatePostModal({
