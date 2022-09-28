@@ -42,7 +42,9 @@ export function PostCard({
         )}
         <ul className="flex gap-2">
           {data.tags?.map(({ name }) => (
-            <li className="text-accent">#{name}</li>
+            <li key={name} className="text-accent">
+              #{name}
+            </li>
           ))}
         </ul>
         <p>{data.description}</p>
