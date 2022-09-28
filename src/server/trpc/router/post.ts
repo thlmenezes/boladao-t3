@@ -7,6 +7,7 @@ export const postRouter = t.router({
     return ctx.prisma.post.findMany({
       include: {
         user: true,
+        tags: true,
       },
     });
   }),
@@ -18,12 +19,22 @@ export const postRouter = t.router({
     });
   }),
   createPost: authedProcedure
-    .input(z.object({ description: z.string() }))
+    .input(z.object({ description: z.string(), tags: z.string().array() }))
     .mutation(({ ctx, input }) => {
       return ctx.prisma.post.create({
         data: {
           description: input.description,
           userId: ctx.session.user.id,
+          tags: {
+            connectOrCreate: input.tags.map((name) => ({
+              create: {
+                name,
+              },
+              where: {
+                name,
+              },
+            })),
+          },
         },
       });
     }),
@@ -35,7 +46,13 @@ export const postRouter = t.router({
       });
     }),
   editPost: authedProcedure
-    .input(z.object({ id: z.string(), description: z.string() }))
+    .input(
+      z.object({
+        id: z.string(),
+        description: z.string(),
+        tags: z.string().array(),
+      })
+    )
     .mutation(({ ctx, input }) => {
       return ctx.prisma.post.update({
         where: {
@@ -43,6 +60,17 @@ export const postRouter = t.router({
         },
         data: {
           description: input.description,
+          tags: {
+            set: [],
+            connectOrCreate: input.tags.map((name) => ({
+              create: {
+                name,
+              },
+              where: {
+                name,
+              },
+            })),
+          },
         },
       });
     }),

@@ -1,3 +1,4 @@
+/* eslint-disable i18next/no-literal-string */
 function copyTextToClipboard(text: string) {
   return () => {
     if (typeof window === 'undefined') return;
@@ -13,7 +14,8 @@ export function PostCard({
   data: {
     id: string;
     description: string;
-    user?: { image: string; name: string };
+    user?: { image: string | null; name: string | null };
+    tags?: { name: string }[];
   };
   editCB: () => void;
   deleteCB: () => void;
@@ -38,6 +40,11 @@ export function PostCard({
             <p>{data.user.name}</p>
           </div>
         )}
+        <ul className="flex gap-2">
+          {data.tags?.map(({ name }) => (
+            <li className="text-accent">#{name}</li>
+          ))}
+        </ul>
         <p>{data.description}</p>
         <div className="card-actions justify-end">
           <button onClick={editCB} className="btn btn-square">

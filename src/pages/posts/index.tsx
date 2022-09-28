@@ -16,10 +16,31 @@ function CreatePostModal({
   closeCB,
 }: {
   isOpen: boolean;
-  createCB: ({ description }: { description: string }) => void;
+  createCB: ({
+    description,
+    tags,
+  }: {
+    description: string;
+    tags: string[];
+  }) => void;
   closeCB: () => void;
 }) {
+  const [tags, setTags] = useState([] as string[]);
   const [description, setDescription] = useState('');
+
+  function handleCheckbox({
+    checked,
+    value,
+  }: {
+    checked: boolean;
+    value: string;
+  }) {
+    if (checked) {
+      setTags((old) => [...old, value]);
+    } else {
+      setTags((old) => old.filter((tag) => tag !== value));
+    }
+  }
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -56,10 +77,60 @@ function CreatePostModal({
                     onSubmit={(e) => {
                       e.preventDefault();
                       if (description.trim().length > 0) {
-                        createCB({ description });
+                        createCB({
+                          description,
+                          tags: Array.from(new Set(tags)),
+                        });
                       }
                     }}
                   >
+                    <ul className="flex gap-2">
+                      <li>
+                        <label className="label cursor-pointer">
+                          <input
+                            type="checkbox"
+                            className="checkbox mr-2"
+                            onClick={(e) =>
+                              handleCheckbox({
+                                checked: e.target?.checked,
+                                value: 'furto',
+                              })
+                            }
+                          />
+                          <span className="label-text">Furto</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="label cursor-pointer">
+                          <input
+                            type="checkbox"
+                            className="checkbox mr-2"
+                            onClick={(e) =>
+                              handleCheckbox({
+                                checked: e.target?.checked,
+                                value: 'roubo',
+                              })
+                            }
+                          />
+                          <span className="label-text">Roubo</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="label cursor-pointer">
+                          <input
+                            type="checkbox"
+                            className="checkbox mr-2"
+                            onClick={(e) =>
+                              handleCheckbox({
+                                checked: e.target?.checked,
+                                value: 'assédio',
+                              })
+                            }
+                          />
+                          <span className="label-text">Assédio</span>
+                        </label>
+                      </li>
+                    </ul>
                     <textarea
                       placeholder="Digite algo..."
                       className="textarea textarea-bordered bg-neutral text-neutral-content w-full rounded px-2 py-1 text-center text-lg"
@@ -71,7 +142,7 @@ function CreatePostModal({
                     />
                     <div className="mt-4 card-actions">
                       <input
-                        disabled={description.trim().length === 0}
+                        // disabled={description.trim().length === 0}
                         className="btn btn-primary"
                         type="submit"
                       />
@@ -99,17 +170,43 @@ function EditPostModal({
   editCB,
   closeCB,
   description: initialDescription,
+  tags: initialTags,
 }: {
   isOpen: boolean;
-  editCB: ({ description }: { description: string }) => void;
+  editCB: ({
+    description,
+    tags,
+  }: {
+    description: string;
+    tags: string[];
+  }) => void;
   closeCB: () => void;
   description: string;
+  tags: string[];
 }) {
+  const [tags, setTags] = useState(initialTags);
   const [description, setDescription] = useState(initialDescription);
-
   useEffect(() => {
     setDescription(initialDescription);
   }, [initialDescription]);
+
+  useEffect(() => {
+    setTags(initialTags);
+  }, [initialTags]);
+
+  function handleCheckbox({
+    checked,
+    value,
+  }: {
+    checked: boolean;
+    value: string;
+  }) {
+    if (checked) {
+      setTags((old) => [...old, value]);
+    } else {
+      setTags((old) => old.filter((tag) => tag !== value));
+    }
+  }
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -146,10 +243,63 @@ function EditPostModal({
                     onSubmit={(e) => {
                       e.preventDefault();
                       if (description.trim().length > 0) {
-                        editCB({ description });
+                        editCB({
+                          description,
+                          tags: Array.from(new Set(tags)),
+                        });
                       }
                     }}
                   >
+                    <ul className="flex gap-2">
+                      <li>
+                        <label className="label cursor-pointer">
+                          <input
+                            type="checkbox"
+                            defaultChecked={tags.includes('furto')}
+                            className="checkbox mr-2"
+                            onClick={(e) =>
+                              handleCheckbox({
+                                checked: e.target?.checked,
+                                value: 'furto',
+                              })
+                            }
+                          />
+                          <span className="label-text">Furto</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="label cursor-pointer">
+                          <input
+                            type="checkbox"
+                            defaultChecked={tags.includes('roubo')}
+                            className="checkbox mr-2"
+                            onClick={(e) =>
+                              handleCheckbox({
+                                checked: e.target?.checked,
+                                value: 'roubo',
+                              })
+                            }
+                          />
+                          <span className="label-text">Roubo</span>
+                        </label>
+                      </li>
+                      <li>
+                        <label className="label cursor-pointer">
+                          <input
+                            type="checkbox"
+                            defaultChecked={tags.includes('assédio')}
+                            className="checkbox mr-2"
+                            onClick={(e) =>
+                              handleCheckbox({
+                                checked: e.target?.checked,
+                                value: 'assédio',
+                              })
+                            }
+                          />
+                          <span className="label-text">Assédio</span>
+                        </label>
+                      </li>
+                    </ul>
                     <textarea
                       placeholder="Digite algo..."
                       className="textarea textarea-bordered bg-neutral text-neutral-content w-full rounded px-2 py-1 text-center text-lg"
@@ -237,29 +387,29 @@ function useCreatePostModal({
   return { isOpen, setIsOpen, createPost };
 }
 
+function formatFeedback(feedback: string) {
+  if (!feedback) return <></>;
+  if (feedback.startsWith('ERRO'))
+    return (
+      <Message key={feedback} variant="error">
+        <span>{feedback}</span>
+      </Message>
+    );
+  return (
+    <Message key={feedback} variant="success">
+      <span>{feedback}</span>
+    </Message>
+  );
+}
+
 const Posts: NextPage = () => {
   const postsData = trpc.post.getAllPosts.useQuery();
   const { data } = useSession();
   const [feedbacks, setFeedbacks] = useState([] as string[]);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [editPostInfo, setEditPostInfo] = useState(
-    {} as { id: string; description: string }
+    {} as { id: string; description: string; tags: { name: string }[] }
   );
-
-  function formatFeedback(feedback: string) {
-    if (!feedback) return <></>;
-    if (feedback.startsWith('ERRO'))
-      return (
-        <Message key={feedback} variant="error">
-          <span>{feedback}</span>
-        </Message>
-      );
-    return (
-      <Message key={feedback} variant="success">
-        <span>{feedback}</span>
-      </Message>
-    );
-  }
 
   const { isOpen, setIsOpen, createPost } = useCreatePostModal({
     callback: () => postsData.refetch(),
@@ -279,7 +429,16 @@ const Posts: NextPage = () => {
     },
   });
 
-  function PostList(posts: { id: string; description: string }[] | undefined) {
+  function PostList(
+    posts:
+      | {
+          id: string;
+          description: string;
+          user: { image: string | null; name: string | null };
+          tags: { name: string }[];
+        }[]
+      | undefined
+  ) {
     if (!posts || posts.length === 0)
       return (
         <a
@@ -304,8 +463,8 @@ const Posts: NextPage = () => {
 
   const createEditCB =
     (id: string) =>
-    ({ description }: { description: string }) =>
-      editPost({ id, description });
+    ({ description, tags }: { description: string; tags: string[] }) =>
+      editPost({ id, description, tags });
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -338,6 +497,7 @@ const Posts: NextPage = () => {
           isOpen={isEditOpen}
           editCB={createEditCB(editPostInfo.id)}
           description={editPostInfo.description ?? ''}
+          tags={editPostInfo.tags.map(({ name }) => name)}
           closeCB={() => setIsEditOpen(false)}
         />
         <div className="toast">
