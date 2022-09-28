@@ -1,4 +1,5 @@
 /* eslint-disable i18next/no-literal-string */
+/* eslint-disable abcsize/abcsize */
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import type { NextPage } from 'next';
@@ -403,7 +404,10 @@ function formatFeedback(feedback: string) {
 }
 
 const Posts: NextPage = () => {
-  const postsData = trpc.post.getAllPosts.useQuery();
+  const [tags, setTags] = useState([] as string[]);
+  const postsData = trpc.post.getAllPosts.useQuery({
+    tags,
+  });
   const { data } = useSession();
   const [feedbacks, setFeedbacks] = useState([] as string[]);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -466,6 +470,20 @@ const Posts: NextPage = () => {
     ({ description, tags }: { description: string; tags: string[] }) =>
       editPost({ id, description, tags });
 
+  function handleCheckbox({
+    checked,
+    value,
+  }: {
+    checked: boolean;
+    value: string;
+  }) {
+    if (checked) {
+      setTags((old) => [...old, value]);
+    } else {
+      setTags((old) => old.filter((tag) => tag !== value));
+    }
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Head>
@@ -478,9 +496,61 @@ const Posts: NextPage = () => {
         {!data ? (
           <h1>Deslogado</h1>
         ) : (
-          <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
-            {PostList(postsData.data)}
-          </div>
+          <>
+            <ul className="flex gap-2">
+              <li>
+                <label className="label cursor-pointer">
+                  <input
+                    type="checkbox"
+                    defaultChecked={tags.includes('furto')}
+                    className="checkbox mr-2"
+                    onClick={(e) =>
+                      handleCheckbox({
+                        checked: e.target?.checked,
+                        value: 'furto',
+                      })
+                    }
+                  />
+                  <span className="label-text">Furto</span>
+                </label>
+              </li>
+              <li>
+                <label className="label cursor-pointer">
+                  <input
+                    type="checkbox"
+                    defaultChecked={tags.includes('roubo')}
+                    className="checkbox mr-2"
+                    onClick={(e) =>
+                      handleCheckbox({
+                        checked: e.target?.checked,
+                        value: 'roubo',
+                      })
+                    }
+                  />
+                  <span className="label-text">Roubo</span>
+                </label>
+              </li>
+              <li>
+                <label className="label cursor-pointer">
+                  <input
+                    type="checkbox"
+                    defaultChecked={tags.includes('assédio')}
+                    className="checkbox mr-2"
+                    onClick={(e) =>
+                      handleCheckbox({
+                        checked: e.target?.checked,
+                        value: 'assédio',
+                      })
+                    }
+                  />
+                  <span className="label-text">Assédio</span>
+                </label>
+              </li>
+            </ul>
+            <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
+              {PostList(postsData.data)}
+            </div>
+          </>
         )}
         <button
           onClick={() => setIsOpen(true)}
@@ -497,7 +567,7 @@ const Posts: NextPage = () => {
           isOpen={isEditOpen}
           editCB={createEditCB(editPostInfo.id)}
           description={editPostInfo.description ?? ''}
-          tags={editPostInfo.tags.map(({ name }) => name)}
+          tags={editPostInfo.tags?.map(({ name }) => name) ?? []}
           closeCB={() => setIsEditOpen(false)}
         />
         <div className="toast">

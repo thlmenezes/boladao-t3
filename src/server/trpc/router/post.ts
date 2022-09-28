@@ -3,21 +3,53 @@ import { z } from 'zod';
 import { authedProcedure, t } from '@root/server/trpc/trpc';
 
 export const postRouter = t.router({
-  getAllPosts: authedProcedure.query(({ ctx }) => {
-    return ctx.prisma.post.findMany({
-      include: {
-        user: true,
-        tags: true,
-      },
-    });
-  }),
-  getMyPosts: authedProcedure.query(({ ctx }) => {
-    return ctx.prisma.post.findMany({
-      where: {
-        userId: ctx.session.user.id,
-      },
-    });
-  }),
+  getAllPosts: authedProcedure
+    .input(z.object({ tags: z.string().array().optional() }))
+    .query(({ ctx, input }) => {
+      const filter =
+        input.tags && input.tags.length > 0
+          ? {
+              tags: {
+                some: {
+                  name: {
+                    in: input.tags,
+                  },
+                },
+              },
+            }
+          : undefined;
+
+      return ctx.prisma.post.findMany({
+        include: {
+          user: true,
+          tags: true,
+        },
+        where: filter,
+      });
+    }),
+  getMyPosts: authedProcedure
+    .input(z.object({ tags: z.string().array().optional() }))
+    .query(({ ctx, input }) => {
+      const filter =
+        input.tags && input.tags.length > 0
+          ? {
+              tags: {
+                some: {
+                  name: {
+                    in: input.tags,
+                  },
+                },
+              },
+            }
+          : {};
+
+      return ctx.prisma.post.findMany({
+        where: {
+          userId: ctx.session.user.id,
+          ...filter,
+        },
+      });
+    }),
   createPost: authedProcedure
     .input(z.object({ description: z.string(), tags: z.string().array() }))
     .mutation(({ ctx, input }) => {
