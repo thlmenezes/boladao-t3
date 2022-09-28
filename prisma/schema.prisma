@@ -71,4 +71,10 @@ model Post {
     description String
     userId      String
     user        User   @relation(fields: [userId], references: [id])
+    tags        Tag[]
+}
+
+model Tag {
+    name  String @id @unique
+    posts Post[]
 }
