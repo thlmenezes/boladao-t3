@@ -1,4 +1,5 @@
-import { Fragment, useState } from 'react';
+/* eslint-disable i18next/no-literal-string */
+import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -93,17 +94,22 @@ function CreatePostModal({
   );
 }
 
-
-function CreatePostModal({
+function EditPostModal({
   isOpen,
-  createCB,
+  editCB,
   closeCB,
+  description: initialDescription,
 }: {
   isOpen: boolean;
-  createCB: ({ description }: { description: string }) => void;
+  editCB: ({ description }: { description: string }) => void;
   closeCB: () => void;
+  description: string;
 }) {
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(initialDescription);
+
+  useEffect(() => {
+    setDescription(initialDescription);
+  }, [initialDescription]);
 
   return (
     <Transition appear show={isOpen} as={Fragment}>
@@ -134,13 +140,13 @@ function CreatePostModal({
               <Dialog.Panel className="w-full max-w-md transform overflow-hidden p-6 text-left align-middle card card-bordered bg-neutral text-neutral-content shadow-xl transition-all">
                 <div className="card-body">
                   <Dialog.Title as="h3" className="card-title">
-                    Criar Novo Post
+                    Editar Post
                   </Dialog.Title>
                   <form
                     onSubmit={(e) => {
                       e.preventDefault();
                       if (description.trim().length > 0) {
-                        createCB({ description });
+                        editCB({ description });
                       }
                     }}
                   >
@@ -178,38 +184,98 @@ function CreatePostModal({
   );
 }
 
-function formatFeedback(feedback: string) {
-  if (!feedback) return <></>;
-  if (feedback.startsWith('ERRO'))
-    return (
-      <Message variant="error">
-        <span>{feedback}</span>
-      </Message>
-    );
-  return (
-    <Message variant="success">
-      <span>{feedback}</span>
-    </Message>
-  );
+const addSymbolSVG = (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="h-6 w-6"
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <line
+      x1="4"
+      y1="12"
+      x2="20"
+      y2="12"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="4"
+    ></line>
+    <line
+      x1="12"
+      y1="4"
+      x2="12"
+      y2="20"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="4"
+    ></line>
+  </svg>
+);
+
+function useCreatePostModal({
+  callback,
+  setFeedbacks,
+}: {
+  callback: () => void;
+  setFeedbacks: (feedback: string) => void;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  const { mutate: createPost } = trpc.post.createPost.useMutation({
+    onSuccess: (post) => {
+      setFeedbacks(`post ${post.id} criado`);
+      setIsOpen(false);
+      callback();
+    },
+    onError: (error) => setFeedbacks(`ERRO: ${error.message}`),
+  });
+
+  return { isOpen, setIsOpen, createPost };
 }
 
 const Posts: NextPage = () => {
   const postsData = trpc.post.getAllPosts.useQuery();
   const { data } = useSession();
-  const [isOpen, setIsOpen] = useState(false);
   const [feedbacks, setFeedbacks] = useState([] as string[]);
-  const { mutate: createPost } = trpc.post.createPost.useMutation({
-    onSuccess: (post) => {
-      setFeedbacks((old) => [...old, `post ${post.id} criado`]);
-      setIsOpen(false);
-      postsData.refetch();
-    },
-    onError: (error) =>
-      setFeedbacks((old) => [...old, `ERRO: ${error.message}`]),
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const [editPostInfo, setEditPostInfo] = useState(
+    {} as { id: string; description: string }
+  );
+
+  function formatFeedback(feedback: string) {
+    if (!feedback) return <></>;
+    if (feedback.startsWith('ERRO'))
+      return (
+        <Message key={feedback} variant="error">
+          <span>{feedback}</span>
+        </Message>
+      );
+    return (
+      <Message key={feedback} variant="success">
+        <span>{feedback}</span>
+      </Message>
+    );
+  }
+
+  const { isOpen, setIsOpen, createPost } = useCreatePostModal({
+    callback: () => postsData.refetch(),
+    setFeedbacks: (feedback: string) =>
+      setFeedbacks((old) => [...old, feedback]),
   });
+
   const { mutate: deletePost } = trpc.post.deletePost.useMutation({
     onSuccess: () => {
       postsData.refetch();
+    },
+  });
+  const { mutate: editPost } = trpc.post.editPost.useMutation({
+    onSuccess: () => {
+      postsData.refetch();
+      setIsEditOpen(false);
     },
   });
 
@@ -225,45 +291,21 @@ const Posts: NextPage = () => {
       );
     return posts.map((post) => (
       <PostCard
+        key={post.id}
         data={post}
         deleteCB={() => deletePost({ id: post.id })}
-        editCB={() => alert('oi')}
+        editCB={() => {
+          setIsEditOpen(true);
+          setEditPostInfo({ ...post });
+        }}
       />
     ));
   }
 
-  const addSymbolSVG = (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className="h-6 w-6"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <line
-        x1="4"
-        y1="12"
-        x2="20"
-        y2="12"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="4"
-      ></line>
-      <line
-        x1="12"
-        y1="4"
-        x2="12"
-        y2="20"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="4"
-      ></line>
-    </svg>
-  );
+  const createEditCB =
+    (id: string) =>
+    ({ description }: { description: string }) =>
+      editPost({ id, description });
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -291,6 +333,12 @@ const Posts: NextPage = () => {
           isOpen={isOpen}
           createCB={createPost}
           closeCB={() => setIsOpen(false)}
+        />
+        <EditPostModal
+          isOpen={isEditOpen}
+          editCB={createEditCB(editPostInfo.id)}
+          description={editPostInfo.description ?? ''}
+          closeCB={() => setIsEditOpen(false)}
         />
         <div className="toast">
           {feedbacks.map((feedback) => formatFeedback(feedback))}
