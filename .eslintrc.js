@@ -30,7 +30,12 @@ module.exports = {
       { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
     ],
     'write-good-comments/write-good-comments': 'warn',
-    'prettier/prettier': ['error'],
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
     '@next/next/no-html-link-for-pages': 'off',
     'react/jsx-key': 'off',
     'simple-import-sort/imports': [
