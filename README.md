@@ -10,6 +10,7 @@ cd boladao-t3
 npm install
 cp .env.example .env
 npm run build
+npx prisma migrate dev
 npm run start
 ```
 
