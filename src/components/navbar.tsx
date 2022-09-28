@@ -1,3 +1,4 @@
+/* eslint-disable i18next/no-literal-string */
 import clsx from 'clsx';
 import Link from 'next/link';
 import { signIn, signOut } from 'next-auth/react';
@@ -63,18 +64,11 @@ export function Navbar({ title }: NavbarProps) {
               </li>
             </Link>
             {user && (
-              <>
-                <Link href="/posts">
-                  <li>
-                    <button>Posts</button>
-                  </li>
-                </Link>
-                <Link href="/posts/mine">
-                  <li>
-                    <button>Meus Posts</button>
-                  </li>
-                </Link>
-              </>
+              <Link href="/posts">
+                <li>
+                  <button>Posts</button>
+                </li>
+              </Link>
             )}
           </ul>
         </div>
@@ -90,14 +84,9 @@ export function Navbar({ title }: NavbarProps) {
             <button className="btn btn-ghost">Início</button>
           </Link>
           {user && (
-            <>
-              <Link href="/posts">
-                <button className="btn btn-ghost">Posts</button>
-              </Link>
-              <Link href="/posts/mine">
-                <button className="btn btn-ghost">Meus Posts</button>
-              </Link>
-            </>
+            <Link href="/posts">
+              <button className="btn btn-ghost">Posts</button>
+            </Link>
           )}
         </div>
         <div className="dropdown dropdown-end">

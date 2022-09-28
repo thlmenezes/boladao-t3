@@ -4,7 +4,12 @@ import { authedProcedure, t } from '@root/server/trpc/trpc';
 
 export const postRouter = t.router({
   getAllPosts: authedProcedure
-    .input(z.object({ tags: z.string().array().optional() }))
+    .input(
+      z.object({
+        userId: z.string().optional(),
+        tags: z.string().array().optional(),
+      })
+    )
     .query(({ ctx, input }) => {
       const filter =
         input.tags && input.tags.length > 0
@@ -24,7 +29,10 @@ export const postRouter = t.router({
           user: true,
           tags: true,
         },
-        where: filter,
+        where: {
+          userId: input.userId ?? undefined,
+          ...filter,
+        },
       });
     }),
   getMyPosts: authedProcedure
@@ -47,6 +55,9 @@ export const postRouter = t.router({
         where: {
           userId: ctx.session.user.id,
           ...filter,
+        },
+        include: {
+          tags: true,
         },
       });
     }),

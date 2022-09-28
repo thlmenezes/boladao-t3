@@ -405,8 +405,10 @@ function formatFeedback(feedback: string) {
 
 const Posts: NextPage = () => {
   const [tags, setTags] = useState([] as string[]);
+  const [userId, setFilterMyPosts] = useState<string | undefined>(undefined);
   const postsData = trpc.post.getAllPosts.useQuery({
     tags,
+    userId,
   });
   const { data } = useSession();
   const [feedbacks, setFeedbacks] = useState([] as string[]);
@@ -497,6 +499,21 @@ const Posts: NextPage = () => {
           <h1>Deslogado</h1>
         ) : (
           <>
+            <ul className="flex gap-2">
+              <li>
+                <label className="label cursor-pointer">
+                  <input
+                    type="checkbox"
+                    defaultChecked={!!userId}
+                    className="checkbox mr-2"
+                    onClick={() =>
+                      setFilterMyPosts(userId ? undefined : data.user?.id)
+                    }
+                  />
+                  <span className="label-text">Meus Posts</span>
+                </label>
+              </li>
+            </ul>
             <ul className="flex gap-2">
               <li>
                 <label className="label cursor-pointer">
