@@ -141,14 +141,14 @@ const Posts: NextPage = () => {
 
   if (!data) {
     return (
-      <div className="flex flex-col min-h-screen">
+      <div className="flex min-h-screen flex-col">
         <Head>
           <title>Posts</title>
           <meta name="description" content="Lista de Publicações" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Navbar title="Posts" />
-        <main className="container flex flex-1 flex-col items-center justify-center p-4 mx-auto">
+        <main className="container mx-auto flex flex-1 flex-col items-center justify-center p-4">
           <h1>Deslogado</h1>
         </main>
       </div>
@@ -156,14 +156,14 @@ const Posts: NextPage = () => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Head>
         <title>Posts</title>
         <meta name="description" content="Lista de Publicações" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar title="Posts" />
-      <main className="container flex flex-1 flex-col items-center justify-center p-4 mx-auto">
+      <main className="container mx-auto flex flex-1 flex-col items-center justify-center p-4">
         <CheckboxHeader
           {...{
             handleCheckbox,

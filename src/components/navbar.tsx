@@ -56,7 +56,7 @@ export function Navbar({ title }: NavbarProps) {
           </label>
           <ul
             tabIndex={0}
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
           >
             <Link href="/">
               <li>
@@ -75,11 +75,11 @@ export function Navbar({ title }: NavbarProps) {
       </div>
       {title && (
         <div className="navbar-center">
-          <a className="normal-case font-bold text-xl">{title}</a>
+          <a className="text-xl font-bold normal-case">{title}</a>
         </div>
       )}
       <div className="navbar-end">
-        <div className="space-x-5 mr-5 invisible lg:visible">
+        <div className="invisible mr-5 space-x-5 lg:visible">
           <Link href="/">
             <button className="btn btn-ghost">Início</button>
           </Link>
@@ -96,7 +96,7 @@ export function Navbar({ title }: NavbarProps) {
           >
             <label
               tabIndex={0}
-              className={clsx('btn btn-ghost btn-circle avatar', {
+              className={clsx('avatar btn btn-ghost btn-circle', {
                 placeholder: !user,
               })}
             >
@@ -105,7 +105,7 @@ export function Navbar({ title }: NavbarProps) {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52"
+            className="dropdown-content menu rounded-box menu-compact mt-3 w-52 bg-base-100 p-2 shadow"
           >
             <li>{sessionButton()}</li>
           </ul>

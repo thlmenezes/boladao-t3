@@ -1,7 +1,5 @@
 {
-  "dictionaries": [
-    "novo-vocabulário"
-  ],
+  "dictionaries": ["novo-vocabulário"],
   "dictionaryDefinitions": [
     {
       "name": "novo-vocabulário",
