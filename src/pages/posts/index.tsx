@@ -186,6 +186,19 @@ const Posts: NextPage = () => {
           }}
         />
 
+        <div className="grid gap-5 p-4 lg:grid-cols-2 xl:grid-cols-3">
+          <PostList
+            {...{
+              posts: postsData.data,
+              deleteCB: (post: Post) => () => deletePost({ id: post.id }),
+              editCB: (post: Post) => () => {
+                setOpenEditModal(true);
+                setEditPostInfo({ ...post });
+              },
+            }}
+          />
+        </div>
+
         <input
           type="number"
           className="input"
@@ -196,6 +209,7 @@ const Posts: NextPage = () => {
             setPage(0);
           }}
         />
+
         <div className="btn-group">
           <button
             className="btn"
@@ -209,18 +223,7 @@ const Posts: NextPage = () => {
             »
           </button>
         </div>
-        <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
-          <PostList
-            {...{
-              posts: postsData.data,
-              deleteCB: (post: Post) => () => deletePost({ id: post.id }),
-              editCB: (post: Post) => () => {
-                setOpenEditModal(true);
-                setEditPostInfo({ ...post });
-              },
-            }}
-          />
-        </div>
+
         <button
           onClick={() => setOpenCreateModal(true)}
           className="btn btn-circle fixed bottom-8 right-8"

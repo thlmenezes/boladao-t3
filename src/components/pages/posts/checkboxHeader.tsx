@@ -30,30 +30,21 @@ export function CheckboxHeader({
   return (
     <>
       <ul className="flex gap-2">
-        <div className="tabs">
+        <div className="tabs py-6">
           <li className={`tab tab-bordered ${!isFiltered ? 'tab-active' : ''}`}>
-            <label className="label cursor-pointer">
-              <span
-                className="label-text"
-                onClick={() => filterMyPostsCB(false)}
-              >
-                Todos Posts
-              </span>
-            </label>
+            <span className="text-lg" onClick={() => filterMyPostsCB(false)}>
+              Todos Posts
+            </span>
           </li>
           <li className={`tab tab-bordered ${isFiltered ? 'tab-active' : ''}`}>
-            <label className="label cursor-pointer">
-              <span
-                className="label-text"
-                onClick={() => filterMyPostsCB(true)}
-              >
-                Meus Posts
-              </span>
-            </label>
+            <span className="text-lg" onClick={() => filterMyPostsCB(true)}>
+              Meus Posts
+            </span>
           </li>
         </div>
       </ul>
-      <ul className="flex gap-2">
+      <ul className="flex items-center gap-2">
+        <p>Filtrar por tags: </p>
         <li>
           <label className="label cursor-pointer">
             <input
