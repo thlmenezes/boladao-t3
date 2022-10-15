@@ -8,6 +8,8 @@ export const postRouter = t.router({
       z.object({
         userId: z.string().optional(),
         tags: z.string().array().optional(),
+        take: z.number().gte(0).optional(),
+        skip: z.number().gte(0).optional(),
       })
     )
     .query(({ ctx, input }) => {
@@ -23,8 +25,7 @@ export const postRouter = t.router({
               },
             }
           : undefined;
-      // TODO: paginate this request
-      // https://www.prisma.io/docs/concepts/components/prisma-client/pagination
+
       return ctx.prisma.post.findMany({
         include: {
           user: true,
@@ -34,6 +35,8 @@ export const postRouter = t.router({
           userId: input.userId ?? undefined,
           ...filter,
         },
+        skip: input.skip,
+        take: input.take,
       });
     }),
   getMyPosts: authedProcedure

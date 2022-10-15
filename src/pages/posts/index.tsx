@@ -1,4 +1,5 @@
 /* eslint-disable i18next/no-literal-string */
+/* eslint-disable abcsize/abcsize */
 import { useState } from 'react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -107,11 +108,15 @@ function formatFeedback(feedback: string) {
 
 const Posts: NextPage = () => {
   const [tags, setTags] = useState([] as string[]);
+  const [page, setPage] = useState(0);
+  const [take, setTake] = useState(6);
   const [filterMyPosts, setFilterMyPosts] = useState(false);
   const { data } = useSession();
   const postsData = trpc.post.getAllPosts.useQuery({
     tags,
     userId: filterMyPosts ? data?.user?.id : undefined,
+    skip: page * take,
+    take,
   });
 
   const {
@@ -171,6 +176,29 @@ const Posts: NextPage = () => {
             tags,
           }}
         />
+        <input
+          type="number"
+          className="input"
+          onChange={(e) => {
+            const docsPerPage = Number(e.target.value);
+            if (!docsPerPage) return;
+            setTake(docsPerPage);
+            setPage(0);
+          }}
+        />
+        <div className="btn-group">
+          <button
+            className="btn"
+            disabled={page === 0}
+            onClick={() => setPage((old) => Math.max(old - 1, 0))}
+          >
+            «
+          </button>
+          <button className="btn">Página {page + 1}</button>
+          <button className="btn" onClick={() => setPage((old) => old + 1)}>
+            »
+          </button>
+        </div>
         <div className="grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
           <PostList
             {...{
