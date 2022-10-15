@@ -37,6 +37,23 @@ Esse projeto foi licenciado pela MIT License - ver [LICENSE.md](LICENSE.md) para
 
 Favor seguir as regras do ESLint, Prettier e Commitlint
 
+Os git hooks não são obrigatórios, caso queira utilizá-los habilite-os manualmente removendo a linha `exit 0` e somente no seu ambiente local, não enviando para o github.
+
+### CI
+
+- Todos os commits do PR serão validados de acordo com as regras do arquivo [`commitlint.config.js`](./commitlint.config.js), utilize o comando para validar localmente sua branch
+
+```bash
+npx commitlint --from=HEAD~$(git --no-pager rev-list main..HEAD --count)
+```
+
+- Todo o código será validado utilizando o ESLint, recomendamos o uso de extensões para ir validando o código conforme ele é escrito, caso queira validar sua area de staging do git pode-se usar `npx lint-staged`, e para os casos mais gerais temos os seguintes comandos
+
+```bash
+npm run lint
+npx eslint src --ext=ts,tsx
+```
+
 ### Problemas Comuns
 
 - Caso os commit hooks não rodem, tente usar `scripts/husky-chmod`: comando de uma linha que modifica os arquivos dentro da pasta `.husky`, permitindo que sejam executados como scripts.
