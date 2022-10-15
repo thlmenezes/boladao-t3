@@ -17,15 +17,18 @@ export function MutationPostModal({
   callback: ({
     description,
     tags,
+    visible,
   }: {
     description: string;
     tags: string[];
+    visible: boolean;
   }) => void;
   onClose: () => void;
   description: string;
   tags: string[];
 }) {
   const [tags, setTags] = useState(initialTags);
+  const [visible, setPostAsPublic] = useState(false);
   const [description, setDescription] = useState(initialDescription);
 
   useEffect(() => {
@@ -77,10 +80,18 @@ export function MutationPostModal({
                         callback({
                           description,
                           tags: Array.from(new Set(tags)),
+                          visible,
                         });
                       }
                     }}
                   >
+                    Público?{' '}
+                    <input
+                      type="checkbox"
+                      className="toggle"
+                      defaultChecked={visible}
+                      onChange={(e) => setPostAsPublic(e.target.checked)}
+                    />
                     <ul className="flex gap-2">
                       <li>
                         <label className="label cursor-pointer">
