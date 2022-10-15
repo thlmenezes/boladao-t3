@@ -69,6 +69,7 @@ model VerificationToken {
 model Post {
     id          String   @id @default(cuid())
     createdAt   DateTime @default(now())
+    visible     Boolean  @default(false)
     description String
     userId      String
     user        User     @relation(fields: [userId], references: [id])
