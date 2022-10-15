@@ -139,8 +139,16 @@ const Posts: NextPage = () => {
 
   const createEditCB =
     (id: string) =>
-    ({ description, tags }: { description: string; tags: string[] }) =>
-      editPost({ id, description, tags });
+    ({
+      description,
+      tags,
+      visible,
+    }: {
+      description: string;
+      tags: string[];
+      visible: boolean;
+    }) =>
+      editPost({ id, description, tags, visible });
   const handleCheckbox = (args: { checked: boolean; value: string }) =>
     setTags((old) => tagCheckboxHandler(args)(old));
 

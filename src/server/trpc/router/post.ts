@@ -32,8 +32,15 @@ export const postRouter = t.router({
           tags: true,
         },
         where: {
-          userId: input.userId ?? undefined,
           ...filter,
+          OR: [
+            {
+              visible: true,
+            },
+            {
+              userId: input.userId ?? undefined,
+            },
+          ],
         },
         skip: input.skip,
         take: input.take,
@@ -69,11 +76,17 @@ export const postRouter = t.router({
       });
     }),
   createPost: authedProcedure
-    .input(z.object({ description: z.string(), tags: z.string().array() }))
+    .input(
+      z.object({
+        description: z.string(),
+        tags: z.string().array(),
+        visible: z.boolean(),
+      })
+    )
     .mutation(({ ctx, input }) => {
       return ctx.prisma.post.create({
         data: {
-          description: input.description,
+          ...input,
           userId: ctx.session.user.id,
           tags: {
             connectOrCreate: input.tags.map((name) => ({
@@ -101,6 +114,7 @@ export const postRouter = t.router({
         id: z.string(),
         description: z.string(),
         tags: z.string().array(),
+        visible: z.boolean(),
       })
     )
     .mutation(({ ctx, input }) => {
@@ -109,7 +123,7 @@ export const postRouter = t.router({
           id: input.id,
         },
         data: {
-          description: input.description,
+          ...input,
           tags: {
             set: [],
             connectOrCreate: input.tags.map((name) => ({
