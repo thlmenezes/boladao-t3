@@ -1,4 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+exit 0
+
+# replaced by wagoid/commitlint-github-action@v5 on CI
+
 npx --no -- commitlint --edit ${1}

@@ -1,4 +1,9 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
+exit 0
+
+# replaced by reviewdog on CI,
+# can still be used locally manually
+
 npx lint-staged
