@@ -99,7 +99,7 @@ export function MutationPostModal({
                             type="checkbox"
                             defaultChecked={tags.includes('furto')}
                             className="checkbox mr-2"
-                            onClick={(e) =>
+                            onChange={(e) =>
                               handleCheckbox({
                                 checked: e.target?.checked,
                                 value: 'furto',
@@ -115,7 +115,7 @@ export function MutationPostModal({
                             type="checkbox"
                             defaultChecked={tags.includes('roubo')}
                             className="checkbox mr-2"
-                            onClick={(e) =>
+                            onChange={(e) =>
                               handleCheckbox({
                                 checked: e.target?.checked,
                                 value: 'roubo',
@@ -131,7 +131,7 @@ export function MutationPostModal({
                             type="checkbox"
                             defaultChecked={tags.includes('assédio')}
                             className="checkbox mr-2"
-                            onClick={(e) =>
+                            onChange={(e) =>
                               handleCheckbox({
                                 checked: e.target?.checked,
                                 value: 'assédio',
