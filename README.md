@@ -60,6 +60,8 @@ npx eslint src --ext=ts,tsx
 
 - Caso a lista de gitmojis esteja desatualizada, tente usar `scripts/fetch-gitmojis`: script node para buscar a lista de gitmojis de gitmoji.dev no github.
 
+- Caso ao manipular hooks antigos estejam sendo listados nas alterações para serem enviadas ao github: pode-se utilizar do comando `git update-index --skip-worktree .husky/commit-msg` para que o git ignore modificações subsequentes ao arquivo e `git update-index --no-skip-worktree .husky/commit-msg` para voltar a monitorá-lo
+
 ## Agradecimentos
 
 - Aline Vitória: [GitHub](https://github.com/alinevitoriasi), [Twitch](https://www.twitch.tv/alinepontocom)
