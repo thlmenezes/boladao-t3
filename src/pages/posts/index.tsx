@@ -17,15 +17,12 @@ import {
 } from '@root/components';
 import { trpc } from '@root/utils/trpc';
 
-// I use "T" before the name of all types to avoid confusion with functions
-// also not needed, you can change it as you want to
 type TCreatePostData = {
   description: string;
   tags: string[];
   visible: boolean;
 };
 
-// exporting for using it inside other components
 export type THandleCreatePost = (
   data: TCreatePostData,
   { onSuccess }: { onSuccess: (post: PrismaPost) => void }
@@ -96,8 +93,9 @@ function useMutationsPostModal({
   });
 
   const handleCreatePost: THandleCreatePost = (postData, { onSuccess }) => {
-    // You can add other functions as onError, onSettled also, but if you do,
-    // you need to add it to the THandleCreatePost type
+    // All functions as onError, onSettled, onSuccess are here if you want,
+    // but you need to add it to the THandleCreatePost type as I did with
+    // onSuccess
     createPost(postData, { onSuccess: (post) => onSuccess(post) });
   };
 
