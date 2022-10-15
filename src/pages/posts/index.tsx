@@ -1,6 +1,7 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable abcsize/abcsize */
 import { useState } from 'react';
+import type { Post as PrismaPost } from '@prisma/client';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';
@@ -15,6 +16,20 @@ import {
   tagCheckboxHandler,
 } from '@root/components';
 import { trpc } from '@root/utils/trpc';
+
+// I use "T" before the name of all types to avoid confusion with functions
+// also not needed, you can change it as you want to
+type TCreatePostData = {
+  description: string;
+  tags: string[];
+  visible: boolean;
+};
+
+// exporting for using it inside other components
+export type THandleCreatePost = (
+  data: TCreatePostData,
+  { onSuccess }: { onSuccess: (post: PrismaPost) => void }
+) => void;
 
 function AddSymbolSVG() {
   return (
@@ -80,14 +95,20 @@ function useMutationsPostModal({
     },
   });
 
+  const handleCreatePost: THandleCreatePost = (postData, { onSuccess }) => {
+    // You can add other functions as onError, onSettled also, but if you do,
+    // you need to add it to the THandleCreatePost type
+    createPost(postData, { onSuccess: (post) => onSuccess(post) });
+  };
+
   return {
     openCreateModal,
     setOpenCreateModal,
-    createPost,
     openEditModal,
     setOpenEditModal,
     editPost,
     deletePost,
+    handleCreatePost,
   };
 }
 
@@ -122,7 +143,7 @@ const Posts: NextPage = () => {
   const {
     openCreateModal,
     setOpenCreateModal,
-    createPost,
+    handleCreatePost,
     openEditModal,
     setOpenEditModal,
     editPost,
@@ -228,7 +249,7 @@ const Posts: NextPage = () => {
         <MutationPostModal
           title={'Criar Novo Post'}
           openModal={openCreateModal}
-          callback={createPost}
+          callback={handleCreatePost}
           tags={[] as string[]}
           description={''}
           onClose={() => setOpenCreateModal(false)}
