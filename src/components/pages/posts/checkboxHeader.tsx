@@ -20,24 +20,38 @@ export function CheckboxHeader({
   handleCheckbox,
   filterMyPostsCB,
   tags,
+  isFiltered,
 }: {
   handleCheckbox: (args: { checked: boolean; value: string }) => void;
-  filterMyPostsCB: () => void;
+  filterMyPostsCB: (filter: boolean) => void;
   tags: string[];
+  isFiltered: boolean;
 }) {
   return (
     <>
       <ul className="flex gap-2">
-        <li>
-          <label className="label cursor-pointer">
-            <input
-              type="checkbox"
-              className="checkbox mr-2"
-              onClick={filterMyPostsCB}
-            />
-            <span className="label-text">Meus Posts</span>
-          </label>
-        </li>
+        <div className="tabs">
+          <li className={`tab tab-bordered ${!isFiltered ? 'tab-active' : ''}`}>
+            <label className="label cursor-pointer">
+              <span
+                className="label-text"
+                onClick={() => filterMyPostsCB(false)}
+              >
+                Todos Posts
+              </span>
+            </label>
+          </li>
+          <li className={`tab tab-bordered ${isFiltered ? 'tab-active' : ''}`}>
+            <label className="label cursor-pointer">
+              <span
+                className="label-text"
+                onClick={() => filterMyPostsCB(true)}
+              >
+                Meus Posts
+              </span>
+            </label>
+          </li>
+        </div>
       </ul>
       <ul className="flex gap-2">
         <li>
