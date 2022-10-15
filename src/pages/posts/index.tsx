@@ -92,13 +92,6 @@ function useMutationsPostModal({
     },
   });
 
-  const handleCreatePost: THandleCreatePost = (postData, { onSuccess }) => {
-    // All functions as onError, onSettled, onSuccess are here if you want,
-    // but you need to add it to the THandleCreatePost type as I did with
-    // onSuccess
-    createPost(postData, { onSuccess: (post) => onSuccess(post) });
-  };
-
   return {
     openCreateModal,
     setOpenCreateModal,
@@ -106,7 +99,7 @@ function useMutationsPostModal({
     setOpenEditModal,
     editPost,
     deletePost,
-    handleCreatePost,
+    createPost,
   };
 }
 
@@ -141,7 +134,7 @@ const Posts: NextPage = () => {
   const {
     openCreateModal,
     setOpenCreateModal,
-    handleCreatePost,
+    createPost,
     openEditModal,
     setOpenEditModal,
     editPost,
@@ -247,7 +240,7 @@ const Posts: NextPage = () => {
         <MutationPostModal
           title={'Criar Novo Post'}
           openModal={openCreateModal}
-          callback={handleCreatePost}
+          callback={createPost}
           tags={[] as string[]}
           description={''}
           onClose={() => setOpenCreateModal(false)}
