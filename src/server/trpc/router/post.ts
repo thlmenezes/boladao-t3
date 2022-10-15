@@ -37,6 +37,9 @@ export const postRouter = t.router({
         },
         skip: input.skip,
         take: input.take,
+        orderBy: {
+          createdAt: 'desc',
+        },
       });
     }),
   getMyPosts: authedProcedure
