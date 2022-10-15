@@ -22,4 +22,6 @@ jobs:
         run: npm ci
 
       - name: 🐶 Review
-        uses: reviewdog/action-eslint@v1
+        # waiting reviewdog/reviewdog#1171
+        # uses: reviewdog/action-eslint@v1
+        run: npx eslint src --ext=ts,tsx
