@@ -11,6 +11,7 @@ module.exports = {
     'abcsize',
     'write-good-comments',
     'i18next',
+    'tailwindcss',
   ],
   extends: [
     'eslint:recommended',
@@ -19,8 +20,13 @@ module.exports = {
     'plugin:abcsize/recommended',
     'next/core-web-vitals',
     'prettier',
+    'plugin:tailwindcss/recommended',
   ],
   rules: {
+    // TODO: daisyUI support seems buggy
+    // https://github.com/francoismassart/eslint-plugin-tailwindcss/issues/129
+    'tailwindcss/no-custom-classname': ['off'],
+    'tailwindcss/classnames-order': ['off'],
     'i18next/no-literal-string': ['warn'],
     complexity: ['error'],
     'no-console': 'error',
