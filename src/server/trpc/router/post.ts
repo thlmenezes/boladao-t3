@@ -23,7 +23,8 @@ export const postRouter = t.router({
               },
             }
           : undefined;
-
+      // TODO: paginate this request
+      // https://www.prisma.io/docs/concepts/components/prisma-client/pagination
       return ctx.prisma.post.findMany({
         include: {
           user: true,
