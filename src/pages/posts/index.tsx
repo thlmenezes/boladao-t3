@@ -180,10 +180,12 @@ const Posts: NextPage = () => {
         <CheckboxHeader
           {...{
             handleCheckbox,
-            filterMyPostsCB: () => setFilterMyPosts((old) => !old),
+            filterMyPostsCB: (filter: boolean) => setFilterMyPosts(filter),
+            isFiltered: filterMyPosts,
             tags,
           }}
         />
+
         <input
           type="number"
           className="input"
