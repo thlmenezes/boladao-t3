@@ -5,7 +5,7 @@ import { Navbar } from '@root/components/navbar';
 
 const Home: NextPage = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col">
       <Head>
         <title>Boladão T3</title>
         <meta
@@ -15,8 +15,8 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar title="Início" />
-      <main className="container flex flex-1 flex-col items-center justify-center p-4 mx-auto">
-        <h1 className="text-5xl md:text-[5rem] leading-normal font-extrabold">
+      <main className="container mx-auto flex flex-1 flex-col items-center justify-center p-4">
+        <h1 className="text-5xl font-extrabold leading-normal md:text-[5rem]">
           Projeto Boladão T3 App
         </h1>
       </main>

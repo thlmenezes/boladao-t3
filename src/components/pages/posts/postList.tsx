@@ -20,7 +20,7 @@ export function PostList({
   if (!posts || posts.length === 0)
     return (
       <a
-        className="mt-3 text-sm underline text-violet-500 decoration-dotted underline-offset-2"
+        className="mt-3 text-sm text-violet-500 underline decoration-dotted underline-offset-2"
         href={'/posts/new'}
       >
         Criar Novo Post

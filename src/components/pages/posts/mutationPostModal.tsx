@@ -51,7 +51,7 @@ export function MutationPostModal({
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black bg-opacity-25" />
+          <div className="fixed inset-0 bg-black/25" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -65,7 +65,7 @@ export function MutationPostModal({
               leaveFrom="opacity-100 scale-100"
               leaveTo="opacity-0 scale-95"
             >
-              <Dialog.Panel className="w-full max-w-md transform overflow-hidden p-6 text-left align-middle card card-bordered bg-neutral text-neutral-content shadow-xl transition-all">
+              <Dialog.Panel className="card card-bordered w-full max-w-md overflow-hidden bg-neutral p-6 text-left align-middle text-neutral-content shadow-xl transition-all">
                 <div className="card-body">
                   <Dialog.Title as="h3" className="card-title">
                     {title}
@@ -133,14 +133,14 @@ export function MutationPostModal({
                     </ul>
                     <textarea
                       placeholder="Digite algo..."
-                      className="textarea textarea-bordered bg-neutral text-neutral-content w-full rounded px-2 py-1 text-center text-lg"
+                      className="textarea textarea-bordered w-full rounded bg-neutral px-2 py-1 text-center text-lg text-neutral-content"
                       name="description"
                       onChange={({ target }) => setDescription(target.value)}
                       rows={5}
                       cols={50}
                       value={description}
                     />
-                    <div className="mt-4 card-actions">
+                    <div className="card-actions mt-4">
                       <input
                         disabled={description.trim().length === 0}
                         className="btn btn-primary"
