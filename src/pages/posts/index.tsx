@@ -186,7 +186,7 @@ const Posts: NextPage = () => {
           }}
         />
 
-        <div className="grid gap-5 p-4 lg:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-5 p-0 sm:p-4 lg:grid-cols-2 xl:grid-cols-3">
           <PostList
             {...{
               posts: postsData.data,

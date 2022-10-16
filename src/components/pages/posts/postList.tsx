@@ -6,6 +6,7 @@ export type Post = {
   description: string;
   user: { image: string | null; name: string | null };
   tags: { name: string }[];
+  visible: boolean;
 };
 
 export function PostList({

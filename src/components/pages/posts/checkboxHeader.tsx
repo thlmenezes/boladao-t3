@@ -43,14 +43,14 @@ export function CheckboxHeader({
           </li>
         </div>
       </ul>
-      <ul className="flex items-center gap-2">
+      <ul className="flex flex-col items-start justify-start gap-2 sm:flex-row sm:items-center">
         <p>Filtrar por tags: </p>
         <li>
           <label className="label cursor-pointer">
             <input
               type="checkbox"
               defaultChecked={tags.includes('furto')}
-              className="checkbox mr-2"
+              className="checkbox mr-2 flex flex-1"
               onClick={(e) =>
                 handleCheckbox({
                   checked: e.target?.checked,
@@ -62,11 +62,11 @@ export function CheckboxHeader({
           </label>
         </li>
         <li>
-          <label className="label cursor-pointer">
+          <label className="label flex cursor-pointer">
             <input
               type="checkbox"
               defaultChecked={tags.includes('roubo')}
-              className="checkbox mr-2"
+              className="checkbox mr-2 flex-1"
               onClick={(e) =>
                 handleCheckbox({
                   checked: e.target?.checked,
@@ -78,11 +78,11 @@ export function CheckboxHeader({
           </label>
         </li>
         <li>
-          <label className="label cursor-pointer">
+          <label className="label flex cursor-pointer">
             <input
               type="checkbox"
               defaultChecked={tags.includes('assédio')}
-              className="checkbox mr-2"
+              className="checkbox mr-2 flex-1"
               onClick={(e) =>
                 handleCheckbox({
                   checked: e.target?.checked,
