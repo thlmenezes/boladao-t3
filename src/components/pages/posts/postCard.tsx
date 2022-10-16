@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Post } from './postList';
 
@@ -21,13 +21,15 @@ export function PostCard({
 }) {
   const [copied, setCopied] = useState(false);
 
-  const handleCopy = (description: string) => {
-    return () => {
-      copyTextToClipboard(description);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    };
-  };
+  useEffect(() => {
+    if (copied) {
+      const timeout = setTimeout(() => {
+        setCopied(false);
+      }, 3000);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [copied]);
 
   return (
     <div
@@ -89,7 +91,10 @@ export function PostCard({
                 data-tip={copied ? 'Copiado' : 'Copiar'}
               >
                 <button
-                  onClick={handleCopy(data.description)}
+                  onClick={() => {
+                    copyTextToClipboard(data.description);
+                    setCopied(true);
+                  }}
                   className="btn btn-primary btn-sm px-1"
                 >
                   <svg
@@ -131,8 +136,8 @@ export function PostCard({
             </li>
           ))}
         </ul>
-        <div className="flex items-center">
-          <p className="flex-1">{data.description}</p>
+        <div className="flex h-full items-center">
+          <p className="flex-1 self-start">{data.description}</p>
           <div className="flex h-full items-end">
             <strong>{data.visible ? 'Público' : 'Privado'}</strong>
           </div>
