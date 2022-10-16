@@ -51,7 +51,7 @@ export function CheckboxHeader({
               type="checkbox"
               defaultChecked={tags.includes('furto')}
               className="checkbox mr-2 flex flex-1"
-              onClick={(e) =>
+              onChange={(e) =>
                 handleCheckbox({
                   checked: e.target?.checked,
                   value: 'furto',
@@ -67,7 +67,7 @@ export function CheckboxHeader({
               type="checkbox"
               defaultChecked={tags.includes('roubo')}
               className="checkbox mr-2 flex-1"
-              onClick={(e) =>
+              onChange={(e) =>
                 handleCheckbox({
                   checked: e.target?.checked,
                   value: 'roubo',
@@ -83,7 +83,7 @@ export function CheckboxHeader({
               type="checkbox"
               defaultChecked={tags.includes('assédio')}
               className="checkbox mr-2 flex-1"
-              onClick={(e) =>
+              onChange={(e) =>
                 handleCheckbox({
                   checked: e.target?.checked,
                   value: 'assédio',
