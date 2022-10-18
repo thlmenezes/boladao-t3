@@ -48,32 +48,6 @@ export const postRouter = t.router({
         ? posts.filter((post) => post.tags.length >= (input.tags?.length ?? 0))
         : posts;
     }),
-  getMyPosts: authedProcedure
-    .input(z.object({ tags: z.string().array().optional() }))
-    .query(({ ctx, input }) => {
-      const filter =
-        input.tags && input.tags.length > 0
-          ? {
-              tags: {
-                some: {
-                  name: {
-                    in: input.tags,
-                  },
-                },
-              },
-            }
-          : {};
-
-      return ctx.prisma.post.findMany({
-        where: {
-          userId: ctx.session.user.id,
-          ...filter,
-        },
-        include: {
-          tags: true,
-        },
-      });
-    }),
   createPost: authedProcedure
     .input(
       z.object({
