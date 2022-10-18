@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { z } from 'zod';
 
 import { authedProcedure, t } from '@root/server/trpc/trpc';
@@ -6,16 +7,16 @@ export const postRouter = t.router({
   getAllPosts: authedProcedure
     .input(
       z.object({
-        userId: z.string().optional(),
+        mine: z.boolean().default(false),
         tags: z.string().array().optional(),
         take: z.number().gte(0).optional(),
         skip: z.number().gte(0).optional(),
       })
     )
-    .query(({ ctx, input }) => {
+    .query(async ({ ctx, input }) => {
       const filter =
         input.tags && input.tags.length > 0
-          ? {
+          ? ({
               tags: {
                 some: {
                   name: {
@@ -23,24 +24,18 @@ export const postRouter = t.router({
                   },
                 },
               },
-            }
+            } as Prisma.PostWhereInput)
           : undefined;
 
-      return ctx.prisma.post.findMany({
+      const posts = await ctx.prisma.post.findMany({
         include: {
           user: true,
           tags: true,
         },
         where: {
           ...filter,
-          OR: [
-            {
-              visible: true,
-            },
-            {
-              userId: input.userId ?? undefined,
-            },
-          ],
+          visible: input.mine ? undefined : true,
+          userId: input.mine ? ctx.session.user.id : undefined,
         },
         skip: input.skip,
         take: input.take,
@@ -48,6 +43,10 @@ export const postRouter = t.router({
           createdAt: 'desc',
         },
       });
+
+      return input.tags && input.tags.length > 0
+        ? posts.filter((post) => post.tags.length >= (input.tags?.length ?? 0))
+        : posts;
     }),
   getMyPosts: authedProcedure
     .input(z.object({ tags: z.string().array().optional() }))

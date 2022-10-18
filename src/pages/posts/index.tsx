@@ -126,7 +126,7 @@ const Posts: NextPage = () => {
   const { data } = useSession();
   const postsData = trpc.post.getAllPosts.useQuery({
     tags,
-    userId: filterMyPosts ? data?.user?.id : undefined,
+    mine: filterMyPosts,
     skip: page * take,
     take,
   });
