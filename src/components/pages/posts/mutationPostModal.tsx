@@ -1,10 +1,30 @@
 /* eslint-disable i18next/no-literal-string */
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
-
-import { THandleCreatePost } from '@root/pages/posts';
+import type { Post as PrismaPost } from '@prisma/client';
 
 import { tagCheckboxHandler } from './checkboxHeader';
+
+interface ICreatePostData {
+  description: string;
+  tags: string[];
+  visible: boolean;
+}
+
+type THandleCreatePost = (
+  data: ICreatePostData,
+  { onSuccess }: { onSuccess: (post: PrismaPost) => void }
+) => void;
+
+interface MutationPostModalProps {
+  title: string;
+  openModal: boolean;
+  callback: THandleCreatePost;
+  onClose: () => void;
+  description: string;
+  tags: string[];
+  visible: boolean;
+}
 
 export function MutationPostModal({
   title,
@@ -13,14 +33,8 @@ export function MutationPostModal({
   onClose,
   description: initialDescription,
   tags: initialTags,
-}: {
-  title: string;
-  openModal: boolean;
-  callback: THandleCreatePost;
-  onClose: () => void;
-  description: string;
-  tags: string[];
-}) {
+  visible: initialVisibility,
+}: MutationPostModalProps) {
   const [tags, setTags] = useState(initialTags);
   const [visible, setPostAsPublic] = useState(false);
   const [description, setDescription] = useState(initialDescription);

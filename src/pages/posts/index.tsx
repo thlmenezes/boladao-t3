@@ -1,7 +1,6 @@
 /* eslint-disable i18next/no-literal-string */
 /* eslint-disable abcsize/abcsize */
 import { useState } from 'react';
-import type { Post as PrismaPost } from '@prisma/client';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useSession } from 'next-auth/react';
@@ -16,17 +15,6 @@ import {
   tagCheckboxHandler,
 } from '@root/components';
 import { trpc } from '@root/utils/trpc';
-
-type TCreatePostData = {
-  description: string;
-  tags: string[];
-  visible: boolean;
-};
-
-export type THandleCreatePost = (
-  data: TCreatePostData,
-  { onSuccess }: { onSuccess: (post: PrismaPost) => void }
-) => void;
 
 function AddSymbolSVG() {
   return (
@@ -145,9 +133,7 @@ const Posts: NextPage = () => {
       setFeedbacks((old) => [...old, feedback]),
   });
   const [feedbacks, setFeedbacks] = useState([] as string[]);
-  const [editPostInfo, setEditPostInfo] = useState(
-    {} as { id: string; description: string; tags: { name: string }[] }
-  );
+  const [editPostInfo, setEditPostInfo] = useState({} as Post);
 
   const createEditCB =
     (id: string) =>

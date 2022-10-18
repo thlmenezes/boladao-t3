@@ -1,12 +1,11 @@
 /* eslint-disable i18next/no-literal-string */
+import type { Post as PrismaPost, Tag, User } from '@prisma/client';
+
 import { PostCard } from './postCard';
 
-export type Post = {
-  id: string;
-  description: string;
-  user: { image: string | null; name: string | null };
-  tags: { name: string }[];
-  visible: boolean;
+export type Post = PrismaPost & {
+  user: User;
+  tags: Tag[];
 };
 
 export function PostList({
