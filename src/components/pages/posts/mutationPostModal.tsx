@@ -2,6 +2,8 @@
 import { Fragment, useEffect, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
+import { THandleCreatePost } from '@root/pages/posts';
+
 import { tagCheckboxHandler } from './checkboxHeader';
 
 export function MutationPostModal({
@@ -14,15 +16,7 @@ export function MutationPostModal({
 }: {
   title: string;
   openModal: boolean;
-  callback: ({
-    description,
-    tags,
-    visible,
-  }: {
-    description: string;
-    tags: string[];
-    visible: boolean;
-  }) => void;
+  callback: THandleCreatePost;
   onClose: () => void;
   description: string;
   tags: string[];
@@ -77,11 +71,21 @@ export function MutationPostModal({
                     onSubmit={(e) => {
                       e.preventDefault();
                       if (description.trim().length > 0) {
-                        callback({
-                          description,
-                          tags: Array.from(new Set(tags)),
-                          visible,
-                        });
+                        callback(
+                          {
+                            description,
+                            tags: Array.from(new Set(tags)),
+                            visible,
+                          },
+                          {
+                            onSuccess: () => {
+                              // reset all fields
+                              setDescription('');
+                              setTags([]);
+                              setPostAsPublic(false);
+                            },
+                          }
+                        );
                       }
                     }}
                   >
@@ -99,7 +103,7 @@ export function MutationPostModal({
                             type="checkbox"
                             defaultChecked={tags.includes('furto')}
                             className="checkbox mr-2"
-                            onClick={(e) =>
+                            onChange={(e) =>
                               handleCheckbox({
                                 checked: e.target?.checked,
                                 value: 'furto',
@@ -115,7 +119,7 @@ export function MutationPostModal({
                             type="checkbox"
                             defaultChecked={tags.includes('roubo')}
                             className="checkbox mr-2"
-                            onClick={(e) =>
+                            onChange={(e) =>
                               handleCheckbox({
                                 checked: e.target?.checked,
                                 value: 'roubo',
@@ -131,7 +135,7 @@ export function MutationPostModal({
                             type="checkbox"
                             defaultChecked={tags.includes('assédio')}
                             className="checkbox mr-2"
-                            onClick={(e) =>
+                            onChange={(e) =>
                               handleCheckbox({
                                 checked: e.target?.checked,
                                 value: 'assédio',
