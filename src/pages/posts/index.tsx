@@ -234,6 +234,7 @@ const Posts: NextPage = () => {
           callback={createPost}
           tags={[] as string[]}
           description={''}
+          visible={false}
           onClose={() => setOpenCreateModal(false)}
         />
         <MutationPostModal
@@ -242,6 +243,7 @@ const Posts: NextPage = () => {
           callback={createEditCB(editPostInfo.id)}
           description={editPostInfo.description ?? ''}
           tags={editPostInfo.tags?.map(({ name }) => name) ?? []}
+          visible={editPostInfo.visible ?? false}
           onClose={() => setOpenEditModal(false)}
         />
         <div className="toast">

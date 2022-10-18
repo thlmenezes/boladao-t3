@@ -36,9 +36,10 @@ export function MutationPostModal({
   visible: initialVisibility,
 }: MutationPostModalProps) {
   const [tags, setTags] = useState(initialTags);
-  const [visible, setPostAsPublic] = useState(false);
+  const [visible, setPostAsPublic] = useState(initialVisibility);
   const [description, setDescription] = useState(initialDescription);
 
+  /* TODO: Why so much effect? Bring queries here? */
   useEffect(() => {
     setDescription(initialDescription);
   }, [initialDescription]);
@@ -46,6 +47,10 @@ export function MutationPostModal({
   useEffect(() => {
     setTags(initialTags);
   }, [initialTags]);
+
+  useEffect(() => {
+    setPostAsPublic(initialVisibility);
+  }, [initialVisibility]);
 
   const handleCheckbox = (args: { checked: boolean; value: string }) =>
     setTags((old) => tagCheckboxHandler(args)(old));
