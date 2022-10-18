@@ -20,33 +20,38 @@ export function CheckboxHeader({
   handleCheckbox,
   filterMyPostsCB,
   tags,
+  isFiltered,
 }: {
   handleCheckbox: (args: { checked: boolean; value: string }) => void;
-  filterMyPostsCB: () => void;
+  filterMyPostsCB: (filter: boolean) => void;
   tags: string[];
+  isFiltered: boolean;
 }) {
   return (
     <>
       <ul className="flex gap-2">
-        <li>
-          <label className="label cursor-pointer">
-            <input
-              type="checkbox"
-              className="checkbox mr-2"
-              onClick={filterMyPostsCB}
-            />
-            <span className="label-text">Meus Posts</span>
-          </label>
-        </li>
+        <div className="tabs py-6">
+          <li className={`tab tab-bordered ${!isFiltered ? 'tab-active' : ''}`}>
+            <span className="text-lg" onClick={() => filterMyPostsCB(false)}>
+              Todos Posts
+            </span>
+          </li>
+          <li className={`tab tab-bordered ${isFiltered ? 'tab-active' : ''}`}>
+            <span className="text-lg" onClick={() => filterMyPostsCB(true)}>
+              Meus Posts
+            </span>
+          </li>
+        </div>
       </ul>
-      <ul className="flex gap-2">
+      <ul className="flex flex-col items-start justify-start gap-2 sm:flex-row sm:items-center">
+        <p>Filtrar por tags: </p>
         <li>
           <label className="label cursor-pointer">
             <input
               type="checkbox"
               defaultChecked={tags.includes('furto')}
-              className="checkbox mr-2"
-              onClick={(e) =>
+              className="checkbox mr-2 flex flex-1"
+              onChange={(e) =>
                 handleCheckbox({
                   checked: e.target?.checked,
                   value: 'furto',
@@ -57,12 +62,12 @@ export function CheckboxHeader({
           </label>
         </li>
         <li>
-          <label className="label cursor-pointer">
+          <label className="label flex cursor-pointer">
             <input
               type="checkbox"
               defaultChecked={tags.includes('roubo')}
-              className="checkbox mr-2"
-              onClick={(e) =>
+              className="checkbox mr-2 flex-1"
+              onChange={(e) =>
                 handleCheckbox({
                   checked: e.target?.checked,
                   value: 'roubo',
@@ -73,12 +78,12 @@ export function CheckboxHeader({
           </label>
         </li>
         <li>
-          <label className="label cursor-pointer">
+          <label className="label flex cursor-pointer">
             <input
               type="checkbox"
               defaultChecked={tags.includes('assédio')}
-              className="checkbox mr-2"
-              onClick={(e) =>
+              className="checkbox mr-2 flex-1"
+              onChange={(e) =>
                 handleCheckbox({
                   checked: e.target?.checked,
                   value: 'assédio',
